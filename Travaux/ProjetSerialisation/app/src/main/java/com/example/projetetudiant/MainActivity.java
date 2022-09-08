@@ -87,7 +87,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     //@Override
-    protected void OnStop () {
+    protected void onStop () {
         super.onStop();
         listePensees.serialiserListe();
     }

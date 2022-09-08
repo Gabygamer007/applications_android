@@ -7,9 +7,11 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectInput;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Inet4Address;
+import java.util.Random;
 import java.util.Vector;
 
 public class ListePensees {
@@ -36,7 +38,10 @@ public class ListePensees {
     }
 
     public String penseeRandom () {
-        return lesPensees.get((int)(Math.random()%lesPensees.size()));
+        Random r = new Random();
+        int indice = r.nextInt(lesPensees.size());
+
+        return lesPensees.get(indice);
     }
 
     public Vector<String> getPensees () {
@@ -56,9 +61,13 @@ public class ListePensees {
     }
 
     public void recupererDuFichierDeSerialisation() throws IOException, ClassNotFoundException {
+        ObjectInputStream ois = null;
+        Vector<String> resultat = null;
+
             FileInputStream fis = context.openFileInput("fichier.ser");
-            ObjectInputStream ois = new ObjectInputStream(fis);
-            lesPensees = (Vector<String>) ois.readObject();
+            ois = new ObjectInputStream(fis);
+            resultat = (Vector<String>) ois.readObject();
+            lesPensees = resultat;
             ois.close();
     }
 

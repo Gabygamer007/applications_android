@@ -54,8 +54,6 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onClick(View view) {
             lanceur.launch(new Intent(MainActivity.this, infoActivity.class));
-
-
         }
     }
     // retour du Intent / boomerang

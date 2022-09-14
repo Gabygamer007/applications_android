@@ -1,4 +1,4 @@
-package com.example.annexe3c;
+package com.example.lirefichiermp3;
 
 import android.content.Context;
 
@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
     public void useAppContext() {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
-        assertEquals("com.example.annexe3c", appContext.getPackageName());
+        assertEquals("com.example.lirefichiermp3", appContext.getPackageName());
     }
 }

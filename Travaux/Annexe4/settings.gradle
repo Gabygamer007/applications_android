@@ -1,0 +1,2 @@
+rootProject.name = "Annexe4"
+include ':app'

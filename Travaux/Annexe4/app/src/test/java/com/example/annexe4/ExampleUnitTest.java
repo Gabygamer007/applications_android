@@ -1,4 +1,4 @@
-package com.example.annexe3c;
+package com.example.annexe4;
 
 import org.junit.Test;
 

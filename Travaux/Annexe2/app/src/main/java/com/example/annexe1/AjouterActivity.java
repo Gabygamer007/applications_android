@@ -12,6 +12,7 @@ import android.widget.EditText;
 import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
@@ -52,6 +53,7 @@ public class AjouterActivity extends AppCompatActivity {
             try {
                 FileOutputStream fos = openFileOutput("liste.txt", Context.MODE_APPEND);
                 OutputStreamWriter osw = new OutputStreamWriter(fos);
+                FileWriter fw = new FileWriter("allo");
                 bw = new BufferedWriter(osw);
                 bw.write(memoAAjouter);
                 bw.newLine();

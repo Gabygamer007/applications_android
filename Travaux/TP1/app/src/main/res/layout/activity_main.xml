@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="@drawable/"
+    android:background="@drawable/japanese_background"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center"
@@ -27,5 +27,32 @@
         android:gravity="center"
         android:text="Dans ce Music Player, vous allez pouvoir écouter plusieurs chansons d'artistes japonais qui ont été utilisés dans des séries/films d'animation japonais"
         android:textSize="20sp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="4"
+        android:gravity="bottom">
+
+        <Button
+            android:id="@+id/boutonWeb"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_weight="1"
+            android:backgroundTint="#2196F3"
+            android:text="Lien Web" />
+
+        <Button
+            android:id="@+id/buttonMusicPlayer"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_weight="1"
+            android:backgroundTint="#2196F3"
+            android:text="Music Player" />
+    </LinearLayout>
 
 </LinearLayout>

@@ -8,8 +8,8 @@ android {
 
     defaultConfig {
         applicationId "com.example.tp1"
-        minSdkVersion 21
-        targetSdkVersion 31
+        minSdkVersion 24
+        targetSdkVersion 30
         versionCode 1
         versionName "1.0"
 

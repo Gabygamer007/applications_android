@@ -44,7 +44,20 @@ public class MainActivity extends AppCompatActivity {
             //if (checkSelfPermission(Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED)
             //    requestPermissions(new String[]{Manifest.permission.READ_CONTACTS}, 666);
         }
-        lanceur = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new CallBackPhoto());
+
+        // sans expression lambda
+        //lanceur = registerForActivityResult(
+        //        new ActivityResultContracts.StartActivityForResult(),
+        //        new CallBackPhoto());
+
+        //avec expression lambda
+        lanceur = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
+            Bundle extras = result.getData().getExtras();
+            Bitmap imageBitmap = (Bitmap) extras.get("data");
+            imageView.setImageBitmap(imageBitmap);
+        });
+
+
 
         Ecouteur ec = new Ecouteur();
 
@@ -69,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
-
+    //ceci est une interface fonctionnelle car elle n'a qu'une méthode donc on peut faire une expression lambda
     private class CallBackPhoto implements ActivityResultCallback<ActivityResult> {
 
         @Override

@@ -1,12 +1,14 @@
 package com.example.tp1;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.util.Log;
 
 import com.spotify.android.appremote.api.ConnectionParams;
 import com.spotify.android.appremote.api.Connector;
 import com.spotify.android.appremote.api.PlayerApi;
 import com.spotify.android.appremote.api.SpotifyAppRemote;
+import com.spotify.protocol.types.PlayerState;
 import com.spotify.protocol.types.Track;
 
 public class SpotifyDiffuseur {
@@ -15,6 +17,7 @@ public class SpotifyDiffuseur {
     PlayerApi playerApi;
     SpotifyAppRemote mSpotifyAppRemote;
     Context context;
+    private PlayerState playerState;
 
     public SpotifyDiffuseur( Context context) {
         this.context = context;
@@ -51,14 +54,22 @@ public class SpotifyDiffuseur {
         SpotifyAppRemote.disconnect(mSpotifyAppRemote);
     }
 
+    public boolean playerIsPaused () {
+        return playerState.isPaused;
+    }
+
+    public void pause() {
+        mSpotifyAppRemote.getPlayerApi().pause();
+    }
+
     public void connected() {
-        // Play a playlist
-        mSpotifyAppRemote.getPlayerApi().play("spotify:playlist:7ts0YeviaSslwWnXG3x6tO");
+        mSpotifyAppRemote.getPlayerApi().play("spotify:playlist:60oBPuhDFLjI4oAv57pLej");
 
         // Subscribe to PlayerState
         mSpotifyAppRemote.getPlayerApi()
                 .subscribeToPlayerState()
                 .setEventCallback(playerState -> {
+                    this.playerState = playerState;
                     final Track track = playerState.track;
                     if (track != null) {
                         Log.d("MainActivity", track.name + " by " + track.artist.name);

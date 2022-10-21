@@ -14,7 +14,6 @@ import com.spotify.protocol.types.Track;
 public class SpotifyDiffuseur {
     private static final String CLIENT_ID = "b036c77369924016a7370600b2e8e6fd";
     private static final String REDIRECT_URI = "com.example.tp1://callback";
-    PlayerApi playerApi;
     SpotifyAppRemote mSpotifyAppRemote;
     Context context;
     private PlayerState playerState;
@@ -62,6 +61,14 @@ public class SpotifyDiffuseur {
         mSpotifyAppRemote.getPlayerApi().pause();
     }
 
+    public void resume() { mSpotifyAppRemote.getPlayerApi().resume(); }
+
+    public void next() { mSpotifyAppRemote.getPlayerApi().skipNext(); }
+
+    public void previous() { mSpotifyAppRemote.getPlayerApi().skipPrevious(); }
+
+
+
     public void connected() {
         mSpotifyAppRemote.getPlayerApi().play("spotify:playlist:60oBPuhDFLjI4oAv57pLej");
 
@@ -72,7 +79,9 @@ public class SpotifyDiffuseur {
                     this.playerState = playerState;
                     final Track track = playerState.track;
                     if (track != null) {
-                        Log.d("MainActivity", track.name + " by " + track.artist.name);
+                        Chanson chanson = new Chanson(track.name, track.artist.name, (int)track.duration);
+                        ((MusicPlayerActivity)context).rafraichir(chanson);
+
                     }
                 });
     }

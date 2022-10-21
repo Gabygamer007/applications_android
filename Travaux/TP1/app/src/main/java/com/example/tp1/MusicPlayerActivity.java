@@ -25,7 +25,7 @@ import com.spotify.protocol.types.PlayerState;
 public class MusicPlayerActivity extends AppCompatActivity {
     private SpotifyDiffuseur spotifyDiffuseur;
     ImageView imageMusique, imagePrecedent, imagePlayStop, imageSuivant;
-    TextView nomArtiste, nomMusique;
+    TextView nomArtiste, nomMusique, textTotalDuration;
     SeekBar durationMusique;
     //@android:drawable/ic_media_play
 
@@ -39,17 +39,15 @@ public class MusicPlayerActivity extends AppCompatActivity {
         imageSuivant = findViewById(R.id.imageSuivant);
         nomArtiste = findViewById(R.id.nomArtiste);
         nomMusique = findViewById(R.id.nomMusique);
+        textTotalDuration = findViewById(R.id.textTotalDuration);
         imagePlayStop.setImageResource(R.drawable.ic_media_pause);
 
         spotifyDiffuseur = new SpotifyDiffuseur(this);
 
         Ecouteur ec = new Ecouteur();
-        imageMusique.setOnClickListener(ec);
         imagePrecedent.setOnClickListener(ec);
         imagePlayStop.setOnClickListener(ec);
         imageSuivant.setOnClickListener(ec);
-        nomArtiste.setOnClickListener(ec);
-        nomMusique.setOnClickListener(ec);
     }
 
     @Override
@@ -62,16 +60,39 @@ public class MusicPlayerActivity extends AppCompatActivity {
         @Override
         public void onClick(View source) {
             if (source == imagePlayStop) {
-                if (spotifyDiffuseur.playerIsPaused()) {
-                    imagePlayStop.setImageResource(R.drawable.ic_media_pause);
-
-                }
-                else {
-                    imagePlayStop.setImageResource(R.drawable.ic_media_play);
+                if (spotifyDiffuseur.playerIsPaused())
+                    spotifyDiffuseur.resume();
+                else
                     spotifyDiffuseur.pause();
-                }
+                updateImagePlayStop(source);
+            }
+            else if (source == imageSuivant) {
+                spotifyDiffuseur.next();
+                updateImagePlayStop(source);
+            }
+            else if (source == imagePrecedent) {
+                spotifyDiffuseur.previous();
+                updateImagePlayStop(source);
             }
         }
+    }
+
+    public void updateImagePlayStop (View source) {
+        boolean playerPaused = spotifyDiffuseur.playerIsPaused();
+        if (source == imagePlayStop)
+            playerPaused = !playerPaused;
+        if (playerPaused) {
+            imagePlayStop.setImageResource(R.drawable.ic_media_play);
+        }
+        else {
+            imagePlayStop.setImageResource(R.drawable.ic_media_pause);
+        }
+    }
+
+    public void rafraichir(Chanson chanson) {
+        nomMusique.setText(chanson.getNomChanson());
+        nomArtiste.setText(chanson.getArtisteChanson());
+        textTotalDuration.setText(String.valueOf(chanson.getTempsChanson()));
     }
 
 

@@ -31,9 +31,6 @@ public class StartActivity extends AppCompatActivity {
 
         @Override
         public void onClick(View source) {
-
-
-
             if (source == boutonMusicPlayer) {
                 startActivity(new Intent(StartActivity.this, MusicPlayerActivity.class));
             }

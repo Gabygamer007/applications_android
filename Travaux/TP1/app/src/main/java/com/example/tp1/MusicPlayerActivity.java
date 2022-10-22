@@ -2,31 +2,23 @@ package com.example.tp1;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.graphics.drawable.Drawable;
+import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
+import android.os.SystemClock;
 import android.view.View;
+import android.widget.Chronometer;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
-import com.spotify.android.appremote.api.ConnectionParams;
-import com.spotify.android.appremote.api.Connector;
-import com.spotify.android.appremote.api.PlayerApi;
-import com.spotify.android.appremote.api.SpotifyAppRemote;
-import com.spotify.protocol.client.CallResult;
-import com.spotify.protocol.client.Subscription;
-import com.spotify.protocol.types.CrossfadeState;
-import com.spotify.protocol.types.Empty;
-import com.spotify.protocol.types.PlaybackSpeed;
-import com.spotify.protocol.types.PlayerContext;
-import com.spotify.protocol.types.PlayerState;
-
 public class MusicPlayerActivity extends AppCompatActivity {
     private SpotifyDiffuseur spotifyDiffuseur;
-    ImageView imageMusique, imagePrecedent, imagePlayStop, imageSuivant;
-    TextView nomArtiste, nomMusique, textTotalDuration;
+    ImageView imageMusique, imagePrecedent, imagePlayStop, imageSuivant, boutonRetour;
+    TextView nomArtiste, nomMusique, textTotalDuration, nomAlbum;
+    Chronometer chronometre;
+    Chanson chansonactuelle;
     SeekBar durationMusique;
+    long timeWhenStopped = 0;
     //@android:drawable/ic_media_play
 
     @Override
@@ -39,6 +31,9 @@ public class MusicPlayerActivity extends AppCompatActivity {
         imageSuivant = findViewById(R.id.imageSuivant);
         nomArtiste = findViewById(R.id.nomArtiste);
         nomMusique = findViewById(R.id.nomMusique);
+        nomAlbum = findViewById(R.id.nomAlbum);
+        chronometre = findViewById(R.id.currentTime);
+        boutonRetour = findViewById(R.id.boutonRetour);
         textTotalDuration = findViewById(R.id.textTotalDuration);
         imagePlayStop.setImageResource(R.drawable.ic_media_pause);
 
@@ -48,44 +43,59 @@ public class MusicPlayerActivity extends AppCompatActivity {
         imagePrecedent.setOnClickListener(ec);
         imagePlayStop.setOnClickListener(ec);
         imageSuivant.setOnClickListener(ec);
+        boutonRetour.setOnClickListener(ec);
     }
 
     @Override
     protected void onStart() {
         super.onStart();
         spotifyDiffuseur.jouerMusique();
+        chronometre.start();
     }
 
     public class Ecouteur implements View.OnClickListener {
         @Override
         public void onClick(View source) {
             if (source == imagePlayStop) {
-                if (spotifyDiffuseur.playerIsPaused())
+                if (spotifyDiffuseur.playerIsPaused()) {
                     spotifyDiffuseur.resume();
-                else
+                    imagePlayStop.setImageResource(R.drawable.ic_media_pause);
+                    chronometre.setBase(SystemClock.elapsedRealtime() + timeWhenStopped);
+                    chronometre.start();
+                }
+                else {
                     spotifyDiffuseur.pause();
-                updateImagePlayStop(source);
+                    imagePlayStop.setImageResource(R.drawable.ic_media_play);
+                    timeWhenStopped = chronometre.getBase() - SystemClock.elapsedRealtime();
+                    chronometre.stop();
+                }
             }
             else if (source == imageSuivant) {
                 spotifyDiffuseur.next();
-                updateImagePlayStop(source);
+                imagePlayStop.setImageResource(R.drawable.ic_media_pause);
+                chronometre.setBase(SystemClock.elapsedRealtime());
+                chronometre.start();
             }
             else if (source == imagePrecedent) {
                 spotifyDiffuseur.previous();
-                updateImagePlayStop(source);
+                if (spotifyDiffuseur.playerIsPaused()) {
+                    spotifyDiffuseur.resume();}
+                imagePlayStop.setImageResource(R.drawable.ic_media_pause);
+                chronometre.setBase(SystemClock.elapsedRealtime());
+                chronometre.start();
             }
-        }
-    }
+            else if (source == boutonRetour) {
+                try {
+                    Intent retour = new Intent();
+                    retour.putExtra("chanson", chansonactuelle);
+                    setResult(69, retour);
+                    finish();
+                }
+                catch (Exception e) {
+                    e.printStackTrace();
+                }
 
-    public void updateImagePlayStop (View source) {
-        boolean playerPaused = spotifyDiffuseur.playerIsPaused();
-        if (source == imagePlayStop)
-            playerPaused = !playerPaused;
-        if (playerPaused) {
-            imagePlayStop.setImageResource(R.drawable.ic_media_play);
-        }
-        else {
-            imagePlayStop.setImageResource(R.drawable.ic_media_pause);
+            }
         }
     }
 
@@ -93,14 +103,8 @@ public class MusicPlayerActivity extends AppCompatActivity {
         nomMusique.setText(chanson.getNomChanson());
         nomArtiste.setText(chanson.getArtisteChanson());
         textTotalDuration.setText(String.valueOf(chanson.getTempsChanson()));
+        imageMusique.setImageBitmap(chanson.getImage());
+        nomAlbum.setText(chanson.getNomAlbum());
+        chansonactuelle = chanson;
     }
-
-
-
-
-
-
-
-
-
 }

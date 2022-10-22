@@ -21,6 +21,8 @@ public class infoActivity extends AppCompatActivity {
         champNom = findViewById(R.id.champNom);
         boutonRetour = findViewById(R.id.boutonRetour);
 
+
+
         Ecouteur ec = new Ecouteur();
         boutonRetour.setOnClickListener(ec);
 

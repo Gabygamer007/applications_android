@@ -1,13 +1,14 @@
 package com.example.tp1;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
+import android.graphics.Bitmap;
 import android.util.Log;
 
 import com.spotify.android.appremote.api.ConnectionParams;
 import com.spotify.android.appremote.api.Connector;
-import com.spotify.android.appremote.api.PlayerApi;
 import com.spotify.android.appremote.api.SpotifyAppRemote;
+import com.spotify.protocol.client.CallResult;
+import com.spotify.protocol.types.Image;
 import com.spotify.protocol.types.PlayerState;
 import com.spotify.protocol.types.Track;
 
@@ -17,6 +18,7 @@ public class SpotifyDiffuseur {
     SpotifyAppRemote mSpotifyAppRemote;
     Context context;
     private PlayerState playerState;
+    Bitmap image;
 
     public SpotifyDiffuseur( Context context) {
         this.context = context;
@@ -69,6 +71,7 @@ public class SpotifyDiffuseur {
 
 
 
+
     public void connected() {
         mSpotifyAppRemote.getPlayerApi().play("spotify:playlist:60oBPuhDFLjI4oAv57pLej");
 
@@ -79,7 +82,14 @@ public class SpotifyDiffuseur {
                     this.playerState = playerState;
                     final Track track = playerState.track;
                     if (track != null) {
-                        Chanson chanson = new Chanson(track.name, track.artist.name, (int)track.duration);
+                        mSpotifyAppRemote
+                                .getImagesApi()
+                                .getImage(playerState.track.imageUri, Image.Dimension.LARGE)
+                                .setResultCallback(
+                                        bitmap -> {
+                                            image = bitmap;
+                                        });
+                        Chanson chanson = new Chanson(track.name, track.artist.name, (int)track.duration, image, track.album.name);
                         ((MusicPlayerActivity)context).rafraichir(chanson);
 
                     }

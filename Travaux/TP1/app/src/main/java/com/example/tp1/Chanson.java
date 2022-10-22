@@ -1,14 +1,22 @@
 package com.example.tp1;
 
-public class Chanson {
+import android.graphics.Bitmap;
+
+import java.io.Serializable;
+
+public class Chanson implements Serializable {
     private String nomChanson;
     private String artisteChanson;
     private int tempsChanson;
+    private Bitmap image;
+    private String nomAlbum;
 
-    public Chanson(String nomChanson, String artisteChanson, int tempsChanson) {
+    public Chanson(String nomChanson, String artisteChanson, int tempsChanson, Bitmap image, String nomAlbum) {
         this.nomChanson = nomChanson;
         this.tempsChanson = tempsChanson;
         this.artisteChanson = artisteChanson;
+        this.image = image;
+        this.nomAlbum = nomAlbum;
     }
 
     public String getArtisteChanson() { return artisteChanson; }
@@ -37,4 +45,12 @@ public class Chanson {
     public void setNomChanson(String nomChanson) {
         this.nomChanson = nomChanson;
     }
+
+    public Bitmap getImage() { return image; }
+
+    public void setImage(Bitmap image) { this.image = image; }
+
+    public String getNomAlbum() { return nomAlbum; }
+
+    public void setNomAlbum(String nomAlbum) { this.nomAlbum = nomAlbum; }
 }

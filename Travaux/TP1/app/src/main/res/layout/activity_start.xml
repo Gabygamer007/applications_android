@@ -14,7 +14,7 @@
         android:id="@+id/textView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_weight="2"
         android:gravity="center"
         android:text="Bienvenue dans mon Spotify Music Player!"
         android:textSize="28sp" />
@@ -23,10 +23,16 @@
         android:id="@+id/textView3"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_weight="2"
         android:gravity="center"
         android:text="Dans ce Music Player, vous allez pouvoir écouter plusieurs chansons d'artistes japonais qui ont été utilisés dans des séries/films d'animation japonais"
         android:textSize="20sp" />
+
+    <ListView
+        android:id="@+id/listView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
 
     <LinearLayout
         android:layout_width="match_parent"

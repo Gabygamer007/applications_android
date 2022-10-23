@@ -36,6 +36,8 @@ public class SpotifyDiffuseur {
 
                     public void onConnected(SpotifyAppRemote spotifyAppRemote) {
                         mSpotifyAppRemote = spotifyAppRemote;
+                        mSpotifyAppRemote.getPlayerApi().toggleShuffle();
+                        mSpotifyAppRemote.getPlayerApi().toggleRepeat();
                         Log.d("MainActivity", "Connected! Yay!");
 
                         // Now you can start interacting with App Remote

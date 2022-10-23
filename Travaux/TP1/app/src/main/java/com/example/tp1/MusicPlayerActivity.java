@@ -16,7 +16,7 @@ public class MusicPlayerActivity extends AppCompatActivity {
     ImageView imageMusique, imagePrecedent, imagePlayStop, imageSuivant, boutonRetour;
     TextView nomArtiste, nomMusique, textTotalDuration, nomAlbum;
     Chronometer chronometre;
-    Chanson chansonactuelle;
+    Musique musiqueActuelle;
     SeekBar durationMusique;
     long timeWhenStopped = 0;
     //@android:drawable/ic_media_play
@@ -87,7 +87,7 @@ public class MusicPlayerActivity extends AppCompatActivity {
             else if (source == boutonRetour) {
                 try {
                     Intent retour = new Intent();
-                    retour.putExtra("chanson", chansonactuelle);
+                    retour.putExtra("musique", musiqueActuelle);
                     setResult(69, retour);
                     finish();
                 }
@@ -105,6 +105,6 @@ public class MusicPlayerActivity extends AppCompatActivity {
         textTotalDuration.setText(String.valueOf(chanson.getTempsChanson()));
         imageMusique.setImageBitmap(chanson.getImage());
         nomAlbum.setText(chanson.getNomAlbum());
-        chansonactuelle = chanson;
+        musiqueActuelle = new Musique(chanson.getArtisteChanson(), chanson.getNomAlbum(), chanson.getNomChanson());
     }
 }

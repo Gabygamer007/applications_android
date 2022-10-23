@@ -47,7 +47,7 @@ public class StartActivity extends AppCompatActivity {
         @Override
         public void onClick(View source) {
             if (source == boutonMusicPlayer) {
-                startActivity(new Intent(StartActivity.this, MusicPlayerActivity.class));
+                lanceur.launch(new Intent(StartActivity.this, MusicPlayerActivity.class));
             }
             else if (source == boutonWeb)
                 startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(lienWEB)));
@@ -59,13 +59,12 @@ public class StartActivity extends AppCompatActivity {
         @Override
         public void onActivityResult(ActivityResult result) {
             if (result.getResultCode() == 69) {
-                Chanson chanson;
-                chanson = (Chanson)result.getData().getSerializableExtra("chanson");
-                boutonWeb.setText(chanson.getNomChanson());
+                Musique musique;
+                musique = (Musique)result.getData().getSerializableExtra("musique");
                 Hashtable<String, String> infos = new Hashtable();
-                infos.put("listviewalbum", chanson.getNomAlbum());
-                infos.put("artiste", chanson.getArtisteChanson());
-                infos.put("nom", chanson.getNomChanson());
+                infos.put("listviewalbum", musique.getNomAlbum());
+                infos.put("artiste", musique.getNomArtiste());
+                infos.put("nom", musique.getNomMusique());
                 infosChansons.add(infos);
                 SimpleAdapter simpleAdapter = new SimpleAdapter(StartActivity.this, infosChansons, R.layout.listviewchanson, stringList, intList);
                 listView.setAdapter(simpleAdapter);

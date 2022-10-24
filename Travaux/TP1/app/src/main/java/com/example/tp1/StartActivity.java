@@ -22,7 +22,7 @@ public class StartActivity extends AppCompatActivity {
     private Button boutonWeb, boutonMusicPlayer;
     ListView listView;
     ActivityResultLauncher<Intent> lanceur;
-    Vector<Hashtable<String, String>> infosChansons = new Vector<>();
+    Vector<Hashtable<String, String>> infosChansons;
     String[] stringList = {"listviewalbum", "artiste", "nom"};
     int[] intList = {R.id.listviewalbum, R.id.artiste, R.id.nom};
 
@@ -59,6 +59,7 @@ public class StartActivity extends AppCompatActivity {
         @Override
         public void onActivityResult(ActivityResult result) {
             if (result.getResultCode() == 69) {
+                infosChansons = new Vector<>();
                 Musique musique;
                 musique = (Musique)result.getData().getSerializableExtra("musique");
                 Hashtable<String, String> infos = new Hashtable();

@@ -53,17 +53,9 @@ public class SpotifyDiffuseur {
                 });
     }
 
-    protected void onStop() {
-        SpotifyAppRemote.disconnect(mSpotifyAppRemote);
-    }
+    public boolean playerIsPaused () { return playerState.isPaused; }
 
-    public boolean playerIsPaused () {
-        return playerState.isPaused;
-    }
-
-    public void pause() {
-        mSpotifyAppRemote.getPlayerApi().pause();
-    }
+    public void pause() { mSpotifyAppRemote.getPlayerApi().pause(); }
 
     public void resume() { mSpotifyAppRemote.getPlayerApi().resume(); }
 
@@ -71,7 +63,7 @@ public class SpotifyDiffuseur {
 
     public void previous() { mSpotifyAppRemote.getPlayerApi().skipPrevious(); }
 
-
+    public Track getTrack() { return playerState.track; }
 
 
     public void connected() {
@@ -96,5 +88,9 @@ public class SpotifyDiffuseur {
 
                     }
                 });
+    }
+
+    public PlayerState getPlayerState() {
+        return playerState;
     }
 }

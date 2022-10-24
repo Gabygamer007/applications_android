@@ -19,7 +19,8 @@ public class MusicPlayerActivity extends AppCompatActivity {
     Musique musiqueActuelle;
     SeekBar durationMusique;
     long timeWhenStopped = 0;
-    //@android:drawable/ic_media_play
+
+    // !- Important: Je n'ai pas un compte spotify premium, donc je ne peux pas utiliser la seekbar
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +45,9 @@ public class MusicPlayerActivity extends AppCompatActivity {
         imagePlayStop.setOnClickListener(ec);
         imageSuivant.setOnClickListener(ec);
         boutonRetour.setOnClickListener(ec);
+
+        TickListener tl = new TickListener();
+        chronometre.setOnChronometerTickListener(tl);
     }
 
     @Override
@@ -60,29 +64,24 @@ public class MusicPlayerActivity extends AppCompatActivity {
                 if (spotifyDiffuseur.playerIsPaused()) {
                     spotifyDiffuseur.resume();
                     imagePlayStop.setImageResource(R.drawable.ic_media_pause);
-                    chronometre.setBase(SystemClock.elapsedRealtime() + timeWhenStopped);
                     chronometre.start();
                 }
                 else {
                     spotifyDiffuseur.pause();
                     imagePlayStop.setImageResource(R.drawable.ic_media_play);
-                    timeWhenStopped = chronometre.getBase() - SystemClock.elapsedRealtime();
                     chronometre.stop();
                 }
             }
             else if (source == imageSuivant) {
                 spotifyDiffuseur.next();
                 imagePlayStop.setImageResource(R.drawable.ic_media_pause);
-                chronometre.setBase(SystemClock.elapsedRealtime());
-                chronometre.start();
+                chronometre.setBase(0);
             }
             else if (source == imagePrecedent) {
                 spotifyDiffuseur.previous();
                 if (spotifyDiffuseur.playerIsPaused()) {
                     spotifyDiffuseur.resume();}
                 imagePlayStop.setImageResource(R.drawable.ic_media_pause);
-                chronometre.setBase(SystemClock.elapsedRealtime());
-                chronometre.start();
             }
             else if (source == boutonRetour) {
                 try {
@@ -99,6 +98,27 @@ public class MusicPlayerActivity extends AppCompatActivity {
         }
     }
 
+    public class TickListener implements Chronometer.OnChronometerTickListener {
+
+        @Override
+        public void onChronometerTick(Chronometer chronometer) {
+            long timeElapsed = SystemClock.elapsedRealtime() - chronometer.getBase();
+            try {
+                if (spotifyDiffuseur.getTrack() != null) {
+                    if (timeElapsed == spotifyDiffuseur.getTrack().duration)
+                        mettreTemps0(chronometer);
+                }
+            }
+            catch(Exception e) {
+                System.out.print("allo");
+            }
+        }
+    }
+
+    public void mettreTemps0 (Chronometer chronometre) {
+        chronometre.setBase(0);
+    }
+
     public void rafraichir(Chanson chanson) {
         nomMusique.setText(chanson.getNomChanson());
         nomArtiste.setText(chanson.getArtisteChanson());
@@ -106,5 +126,6 @@ public class MusicPlayerActivity extends AppCompatActivity {
         imageMusique.setImageBitmap(chanson.getImage());
         nomAlbum.setText(chanson.getNomAlbum());
         musiqueActuelle = new Musique(chanson.getArtisteChanson(), chanson.getNomAlbum(), chanson.getNomChanson());
+        //chronometre.setBase(spotifyDiffuseur.getPlayerState().playbackPosition/1000);
     }
 }

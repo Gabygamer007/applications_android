@@ -50,11 +50,16 @@ public class MusicPlayerActivity extends AppCompatActivity {
 
         chronometre.setOnChronometerTickListener(chronometer -> {
             durationMusique.setProgress(progresSeekBar);
-            progresSeekBar++;
-            try {
-                if (progresSeekBar == spotifyDiffuseur.getTrack().duration) {
-                    progresSeekBar = 0;
-                    chronometer.setBase(SystemClock.elapsedRealtime());
+            progresSeekBar++; // cliquer sur pause/play plusieures fois va déregler la progress bar
+            try { // pour comparer track a null, il faut try/catch puisque au depart il n'y a pas de track
+                if (spotifyDiffuseur.getPlayerState().track != null) {
+                    if (progresSeekBar == spotifyDiffuseur.retournerDuree() - 1) {
+                        //                                                    ^
+                        // puisque la progress bar commence un peu en retard, je vais regarder une seconde en avance
+                        progresSeekBar = 0;
+                        chronometer.setBase(SystemClock.elapsedRealtime());
+                    }
+                    durationMusique.setMax(spotifyDiffuseur.retournerDuree());
                 }
             }
             catch(Exception e) {
@@ -74,15 +79,13 @@ public class MusicPlayerActivity extends AppCompatActivity {
         @Override
         public void onClick(View source) {
             if (source == imagePlayStop) {
-                if (spotifyDiffuseur.playerIsPaused()) {
-
+                if (spotifyDiffuseur.playerIsPaused()) {// si la musique est a stop
                     spotifyDiffuseur.resume();
                     imagePlayStop.setImageResource(R.drawable.ic_media_pause);
-                    chronometre.setBase(timeWhenStopped + SystemClock.elapsedRealtime());
+                    chronometre.setBase(SystemClock.elapsedRealtime() + timeWhenStopped);
                     chronometre.start();
-
                 }
-                else {
+                else { // sinon, si la musique joue
                     spotifyDiffuseur.pause();
                     imagePlayStop.setImageResource(R.drawable.ic_media_play);
                     timeWhenStopped = chronometre.getBase() - SystemClock.elapsedRealtime();
@@ -92,9 +95,9 @@ public class MusicPlayerActivity extends AppCompatActivity {
             else if (source == imageSuivant) {
                 spotifyDiffuseur.next();
                 imagePlayStop.setImageResource(R.drawable.ic_media_pause);
-                timeWhenStopped = SystemClock.elapsedRealtime();
                 chronometre.setBase(SystemClock.elapsedRealtime());
                 progresSeekBar = 0;
+                timeWhenStopped = 0;
                 chronometre.start();
             }
             else if (source == imagePrecedent) {
@@ -103,8 +106,11 @@ public class MusicPlayerActivity extends AppCompatActivity {
                     spotifyDiffuseur.resume();}
                 imagePlayStop.setImageResource(R.drawable.ic_media_pause);
                 progresSeekBar = 0;
+                timeWhenStopped = 0;
+                chronometre.setBase(SystemClock.elapsedRealtime());
+                chronometre.start();
             }
-            else if (source == boutonRetour) {
+            else if (source == boutonRetour) { // si on reviens au startactivity(boomerang)
                 try {
                     Intent retour = new Intent();
                     retour.putExtra("musique", musiqueActuelle);
@@ -126,7 +132,5 @@ public class MusicPlayerActivity extends AppCompatActivity {
         imageMusique.setImageBitmap(chanson.getImage());
         nomAlbum.setText(chanson.getNomAlbum());
         musiqueActuelle = new Musique(chanson.getArtisteChanson(), chanson.getNomAlbum(), chanson.getNomChanson());
-        durationMusique.setMax(Integer.parseInt(chanson.getTempsChanson()));
-        chronometre.setBase((SystemClock.elapsedRealtime() - chronometre.getBase()) -spotifyDiffuseur.getPlayerState().playbackPosition);
     }
 }

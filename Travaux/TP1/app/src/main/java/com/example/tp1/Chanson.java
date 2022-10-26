@@ -21,11 +21,9 @@ public class Chanson implements Serializable {
 
     public String getArtisteChanson() { return artisteChanson; }
 
-    public void setArtisteChanson(String artisteChanson) { this.artisteChanson = artisteChanson; }
-
     public String getTempsChanson() {
         String tempsMusique;
-        int nbMinutes = Math.floorDiv(tempsChanson, 60000);
+        int nbMinutes = Math.floorDiv(tempsChanson, 60000); // valeur plancher en minutes, on ne veux pas que ca arrondisse au plafond
         int nbSecondes = (tempsChanson/1000) - (nbMinutes*60);
         if (nbSecondes < 10)
             tempsMusique = nbMinutes + ":" + "0" + nbSecondes;
@@ -34,23 +32,11 @@ public class Chanson implements Serializable {
         return tempsMusique;
     }
 
-    public void setTempsChanson(int tempsChanson) {
-        this.tempsChanson = tempsChanson;
-    }
-
     public String getNomChanson() {
         return nomChanson;
     }
 
-    public void setNomChanson(String nomChanson) {
-        this.nomChanson = nomChanson;
-    }
-
     public Bitmap getImage() { return image; }
 
-    public void setImage(Bitmap image) { this.image = image; }
-
     public String getNomAlbum() { return nomAlbum; }
-
-    public void setNomAlbum(String nomAlbum) { this.nomAlbum = nomAlbum; }
 }

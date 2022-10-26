@@ -2,6 +2,7 @@ package com.example.tp1;
 
 import java.io.Serializable;
 
+// cette classe n'apporte rien et n'est qu'utilisee pour le Boomerang
 public class Musique implements Serializable {
     private String nomArtiste;
     private String nomAlbum;
@@ -17,23 +18,12 @@ public class Musique implements Serializable {
         return nomArtiste;
     }
 
-    public void setNomArtiste(String nomArtiste) {
-        this.nomArtiste = nomArtiste;
-    }
-
     public String getNomAlbum() {
         return nomAlbum;
-    }
-
-    public void setNomAlbum(String nomAlbum) {
-        this.nomAlbum = nomAlbum;
     }
 
     public String getNomMusique() {
         return nomMusique;
     }
 
-    public void setNomMusique(String nomMusique) {
-        this.nomMusique = nomMusique;
-    }
 }

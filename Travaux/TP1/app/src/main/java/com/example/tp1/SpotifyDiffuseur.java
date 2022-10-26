@@ -63,7 +63,7 @@ public class SpotifyDiffuseur {
 
     public void previous() { mSpotifyAppRemote.getPlayerApi().skipPrevious(); }
 
-    public Track getTrack() { return playerState.track; }
+    public int retournerDuree() { return (int)playerState.track.duration/1000; } // fonction pour seekbar
 
 
     public void connected() {
@@ -81,7 +81,7 @@ public class SpotifyDiffuseur {
                                 .getImage(playerState.track.imageUri, Image.Dimension.LARGE)
                                 .setResultCallback(
                                         bitmap -> {
-                                            image = bitmap;
+                                            image = bitmap; // j'ai mis le rafraichir ici pour que le programme charge l'image
                                             Chanson chanson = new Chanson(track.name, track.artist.name, (int)track.duration, image, track.album.name);
                                             ((MusicPlayerActivity)context).rafraichir(chanson);
                                         });

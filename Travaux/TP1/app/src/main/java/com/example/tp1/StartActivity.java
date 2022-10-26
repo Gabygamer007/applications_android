@@ -57,7 +57,7 @@ public class StartActivity extends AppCompatActivity {
     private class RetourBoomerang implements ActivityResultCallback<ActivityResult> {
 
         @Override
-        public void onActivityResult(ActivityResult result) {
+        public void onActivityResult(ActivityResult result) { // le Boomerang va ramener la musique en écoute quand
             if (result.getResultCode() == 69) {
                 infosChansons = new Vector<>();
                 Musique musique;

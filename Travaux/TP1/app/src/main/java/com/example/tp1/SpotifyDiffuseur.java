@@ -82,10 +82,9 @@ public class SpotifyDiffuseur {
                                 .setResultCallback(
                                         bitmap -> {
                                             image = bitmap;
+                                            Chanson chanson = new Chanson(track.name, track.artist.name, (int)track.duration, image, track.album.name);
+                                            ((MusicPlayerActivity)context).rafraichir(chanson);
                                         });
-                        Chanson chanson = new Chanson(track.name, track.artist.name, (int)track.duration, image, track.album.name);
-                        ((MusicPlayerActivity)context).rafraichir(chanson);
-
                     }
                 });
     }

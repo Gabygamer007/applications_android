@@ -47,10 +47,19 @@ public class DebutFragment extends Fragment {
     @Override
     public void onPause() {
         super.onPause();
-        // à compléter
-        ((ConteneurFragmentsActivity)getActivity()).getM().setNom(champNom.getText().toString());
-        ((ConteneurFragmentsActivity)getActivity()).getM().setPrenom(champPrenom.getText().toString());
-        ((ConteneurFragmentsActivity)getActivity()).getM().setObjectif(groupe.toString());
+        Membre.Builder m = ((ConteneurFragmentsActivity)getActivity()).getM();
+        m.setNom(champNom.getText().toString());
+        m.setPrenom(champNom.getText().toString());
+        int id = groupe.getCheckedRadioButtonId();
+        if ( id == R.id.bPerdreDuPoids ) {
+            m.setObjectif("perdre du poids");
+        }
+        else if ( id == R.id.bEtreMeilleureSante ) {
+            m.setObjectif("etre en meilleure santé");
+        }
+        else {
+            m.setObjectif("gagner de la masse musculaire");
+        }
 
 
 

@@ -75,8 +75,8 @@ public class TroisiemeFragment extends Fragment {
 
 
     @Override
-    public void onStop() {
-        super.onStop();
+    public void onPause() {
+        super.onPause();
 
         Membre.Builder m =((ConteneurFragmentsActivity) getActivity()).getM();
 

@@ -60,6 +60,7 @@ public class ConteneurFragmentsActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         //seulement un item
+        positionClic ++;
         viewPager.setCurrentItem(viewPager.getCurrentItem()+1);
         return true;
     }
@@ -71,8 +72,8 @@ public class ConteneurFragmentsActivity extends AppCompatActivity {
 
             super.onBackPressed();
         } else {
-
-
+        viewPager.setCurrentItem(viewPager.getCurrentItem()-1);
+        positionClic--;
         }
     }
 

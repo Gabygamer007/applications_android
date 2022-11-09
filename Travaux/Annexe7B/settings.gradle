@@ -1,0 +1,2 @@
+rootProject.name = "Annexe7B"
+include ':app'

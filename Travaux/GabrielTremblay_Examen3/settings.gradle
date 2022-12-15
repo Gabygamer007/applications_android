@@ -1,0 +1,2 @@
+rootProject.name = "GabrielTremblay_Examen3"
+include ':app'

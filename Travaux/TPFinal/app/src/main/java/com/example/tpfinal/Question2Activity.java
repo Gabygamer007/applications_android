@@ -27,19 +27,19 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Vector;
 
-public class Question1Activity extends AppCompatActivity {
+public class Question2Activity extends AppCompatActivity {
 
     NetworkImageView imageArtiste1, imageArtiste2;
     TextView nomArtiste1, nomArtiste2, texteReponse;
     SharedPreferences sharedPreferences;
     Vector<String> artistes  = new Vector<>();
-    String followerArtiste1, followerArtiste2;
+    String populariteArtiste1, populariteArtiste2;
     Button boutonContinuer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_question1);
+        setContentView(R.layout.activity_question2);
         imageArtiste1 = findViewById(R.id.imageArtiste1);
         imageArtiste2 = findViewById(R.id.imageArtiste2);
         nomArtiste1 = findViewById(R.id.nomArtiste1);
@@ -82,12 +82,11 @@ public class Question1Activity extends AppCompatActivity {
                             nomArtiste.setText(response.getString("name"));
                             JSONArray jsonArray = response.getJSONArray("images");
                             urlImg = ((JSONObject)jsonArray.get(1)).getString("url");
-                            imageArtiste.setImageUrl( urlImg, SingletonVolley.getInstance(Question1Activity.this).getImageLoader());
-                            JSONObject jsonObject = response.getJSONObject("followers");
+                            imageArtiste.setImageUrl( urlImg, SingletonVolley.getInstance(Question2Activity.this).getImageLoader());
                             if (nomArtiste == nomArtiste1)
-                                followerArtiste1 = ((JSONObject)jsonObject).getString("total");
+                                populariteArtiste1 = response.getString("popularity");
                             else if (nomArtiste == nomArtiste2)
-                                followerArtiste2 = ((JSONObject)jsonObject).getString("total");
+                                populariteArtiste2 = response.getString("popularity");
 
                         }
                         catch (JSONException jsonException) {
@@ -118,42 +117,43 @@ public class Question1Activity extends AppCompatActivity {
         public void onClick(View view) {
             if (view != boutonContinuer) {
                 // une egalite va toujours etre une bonne reponse
-                if (Integer.parseInt(followerArtiste2) == Integer.parseInt(followerArtiste1)) {
+                if (Integer.parseInt(populariteArtiste1) == Integer.parseInt(populariteArtiste2)) {
                     texteReponse.setText("Bonne réponse !");
                     texteReponse.setTextColor(Color.GREEN);
                 } else if (view == nomArtiste1 || view == imageArtiste1) { // si on clique a gauche
-                    if (Integer.parseInt(followerArtiste1) > Integer.parseInt(followerArtiste2)) {
+                    if (Integer.parseInt(populariteArtiste1) > Integer.parseInt(populariteArtiste2)) {
                         texteReponse.setText("Bonne réponse !");
                         texteReponse.setTextColor(Color.GREEN);
-                        SingletonVolley.getInstance(Question1Activity.this).ajoutResultat();
+                        SingletonVolley.getInstance(Question2Activity.this).ajoutResultat();
                     } else {
                         texteReponse.setText("Mauvaise réponse :(");
                         texteReponse.setTextColor(Color.RED);
                     }
                 } else if (view == nomArtiste2 || view == imageArtiste2) { // si on clique a droite
-                    if (Integer.parseInt(followerArtiste2) > Integer.parseInt(followerArtiste1)) {
+                    if (Integer.parseInt(populariteArtiste2) > Integer.parseInt(populariteArtiste1)) {
                         texteReponse.setText("Bonne réponse !");
                         texteReponse.setTextColor(Color.GREEN);
-                        SingletonVolley.getInstance(Question1Activity.this).ajoutResultat();
+                        SingletonVolley.getInstance(Question2Activity.this).ajoutResultat();
                     } else {
                         texteReponse.setText("Mauvaise réponse :(");
                         texteReponse.setTextColor(Color.RED);
                     }
-                }
-                // finalement, on affiche le resultat et le bouton avec une animation
+                } // finalement, on affiche le resultat et le bouton avec une animation
                 ObjectAnimator anim1 = ObjectAnimator.ofFloat(texteReponse, View.Y, dpToPx(450));
                 ObjectAnimator anim2 = ObjectAnimator.ofFloat(boutonContinuer, View.Y, dpToPx(550));
                 AnimatorSet animatorSet = new AnimatorSet();
                 animatorSet.playSequentially(anim1, anim2);
                 animatorSet.setDuration(1000);
                 animatorSet.start();
+                // et on fait en sorte qu'on ne puisse plus cliquer pour choisir son choix
                 imageArtiste1.setClickable(false);
                 imageArtiste2.setClickable(false);
                 nomArtiste1.setClickable(false);
                 nomArtiste2.setClickable(false);
+
             }
             else {
-                Intent intent = new Intent(Question1Activity.this, Question2Activity.class);
+                Intent intent = new Intent(Question2Activity.this, Question3Activity.class);
                 startActivity(intent);
             }
 

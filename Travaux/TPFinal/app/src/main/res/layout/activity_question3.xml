@@ -4,13 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Question1Activity">
+    tools:context=".Question3Activity">
 
     <TextView
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Question 1:"
+        android:text="Question 3:"
         android:textColor="#000000"
         android:textSize="34sp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -23,7 +23,7 @@
         android:id="@+id/question"
         android:layout_width="350dp"
         android:layout_height="wrap_content"
-        android:text="Qui a le plus de followers? (cliquez sur l'image ou le texte)"
+        android:text="Quel artiste fait ce genre de musique : "
         android:textAlignment="center"
         android:textColor="#000000"
         android:textSize="24sp"
@@ -114,11 +114,28 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="1.2" />
 
-    <Button
-        android:id="@+id/boutonContinuer"
+    <TextView
+        android:id="@+id/texteResultat"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Continuer"
+        android:fontFamily="sans-serif-condensed"
+        android:text="Bravo ! Vous avez eu"
+        android:textAlignment="center"
+        android:textColor="#000000"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.2" />
+
+    <Button
+        android:id="@+id/boutonRetour"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Retour au debut"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"

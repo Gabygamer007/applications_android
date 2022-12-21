@@ -4,13 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Question1Activity">
+    tools:context=".Question2Activity">
 
     <TextView
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Question 1:"
+        android:text="Question 2:"
         android:textColor="#000000"
         android:textSize="34sp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -23,7 +23,7 @@
         android:id="@+id/question"
         android:layout_width="350dp"
         android:layout_height="wrap_content"
-        android:text="Qui a le plus de followers? (cliquez sur l'image ou le texte)"
+        android:text="Qui est le plus populaire (basé sur les écoutes par musique de l'artiste)"
         android:textAlignment="center"
         android:textColor="#000000"
         android:textSize="24sp"

@@ -1,1 +1,1 @@
-# applications_android
+# Projets d'applications Android fait tout au long du cours
